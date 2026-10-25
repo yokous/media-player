@@ -10,7 +10,7 @@ Android-приложение на Kotlin: музыкальный плеер со
 | 1. Идея | [docs/01-idea.docx](docs/01-idea.docx) |
 | 1. Техническое задание | [docs/02-tz.docx](docs/02-tz.docx) |
 | 1. Стек и архитектура | [docs/03-stack.docx](docs/03-stack.docx) |
-| 1. Диаграмма use case | [docs/diagrams/usecase.puml](docs/diagrams/usecase.drawio) |
+| 1. Диаграмма use case | [docs/usecase.drawio](docs/usecase.drawio) |
 
 ## Стек
 
