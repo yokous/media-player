@@ -11,6 +11,13 @@ Android-приложение на Kotlin: музыкальный плеер со
 | 1. Техническое задание | [docs/02-tz.docx](docs/02-tz.docx) |
 | 1. Стек и архитектура | [docs/03-stack.docx](docs/03-stack.docx) |
 | 1. Диаграмма use case | [docs/usecase.drawio](docs/usecase.drawio) |
+| 2. Архитектура | [docs/04-architecture.docx](docs/04-architecture.docx) |
+| 2. Диаграммы | [docs/layer-component-class.drawio](docs/layer-component-class.drawio) |
+| 2. Дизайн система | [docs/05-design-system.docx](docs/05-design-system.docx) |
+
+## Дизайн
+[Макет Figma]
+(https://www.figma.com/design/VM6764bV5Eod4UTJr6rD5n/media-player-UI?node-id=96-897&t=SgTKflOMsVM89kJo-1)
 
 ## Стек
 
