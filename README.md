@@ -16,8 +16,7 @@ Android-приложение на Kotlin: музыкальный плеер со
 | 2. Дизайн система | [docs/05-design-system.docx](docs/05-design-system.docx) |
 
 ## Дизайн
-[Макет Figma]
-(https://www.figma.com/design/VM6764bV5Eod4UTJr6rD5n/media-player-UI?node-id=96-897&t=SgTKflOMsVM89kJo-1)
+[Макет Figma](https://www.figma.com/design/VM6764bV5Eod4UTJr6rD5n/media-player-UI?node-id=96-897&t=SgTKflOMsVM89kJo-1)
 
 ## Стек
 
