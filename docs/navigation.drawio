@@ -1,0 +1,206 @@
+<mxfile host="Electron">
+  <diagram id="nav" name="nav">
+    <mxGraphModel dx="3117" dy="1179" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1120" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="g_in" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;verticalAlign=top;align=left;spacingLeft=10;arcSize=3;" value="Вход" vertex="1">
+          <mxGeometry height="370" width="230" x="-140" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="g_tabs" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;verticalAlign=top;align=left;spacingLeft=10;arcSize=3;" value="Нижняя навигация (переходы между любыми вкладками)" vertex="1">
+          <mxGeometry height="500" width="215" x="290" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g_pl" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;verticalAlign=top;align=left;spacingLeft=10;arcSize=3;" value="Плеер" vertex="1">
+          <mxGeometry height="370" width="215" x="560" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g_qr" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;verticalAlign=top;align=left;spacingLeft=10;arcSize=3;" value="QR" vertex="1">
+          <mxGeometry height="250" width="215" x="850" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g_imp" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;verticalAlign=top;align=left;spacingLeft=10;arcSize=3;" value="Импорт плейлиста" vertex="1">
+          <mxGeometry height="230" width="215" x="850" y="630" as="geometry" />
+        </mxCell>
+        <mxCell id="g_rec" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;verticalAlign=top;align=left;spacingLeft=10;arcSize=3;" value="Распознавание" vertex="1">
+          <mxGeometry height="230" width="215" x="560" y="630" as="geometry" />
+        </mxCell>
+        <mxCell id="n_Onboarding" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;" value="Onboarding" vertex="1">
+          <mxGeometry height="48" width="170" x="-120" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n_Login" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;" value="Login" vertex="1">
+          <mxGeometry height="48" width="170" x="-120" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="n_Register" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;" value="Register" vertex="1">
+          <mxGeometry height="48" width="170" x="-120" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="n_Home" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;" value="Home" vertex="1">
+          <mxGeometry height="48" width="170" x="310" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n_Catalog" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;" value="Catalog" vertex="1">
+          <mxGeometry height="48" width="170" x="310" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="n_Profile" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;" value="Profile" vertex="1">
+          <mxGeometry height="48" width="170" x="310" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="n_MyMusic" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;" value="MyMusic" vertex="1">
+          <mxGeometry height="48" width="170" x="310" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="n_Player" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;" value="Player" vertex="1">
+          <mxGeometry height="48" width="170" x="580" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n_Comments" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;" value="Comments" vertex="1">
+          <mxGeometry height="48" width="170" x="580" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="n_Queue-Similar" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;" value="Queue-Similar" vertex="1">
+          <mxGeometry height="48" width="170" x="580" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="n_QR-Show" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;" value="QR-Show" vertex="1">
+          <mxGeometry height="48" width="170" x="870" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n_QR-Scan" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;" value="QR-Scan" vertex="1">
+          <mxGeometry height="48" width="170" x="870" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="n_Duet" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;" value="Duet" vertex="1">
+          <mxGeometry height="48" width="170" x="580" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="n_Settings" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;" value="Settings" vertex="1">
+          <mxGeometry height="48" width="170" x="-200" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="n_Playlist" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;" value="Playlist" vertex="1">
+          <mxGeometry height="48" width="170" x="310" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="n_Import-1-File" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;" value="Import-1-File" vertex="1">
+          <mxGeometry height="48" width="170" x="870" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="n_Import-2-Check" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;" value="Import-2-Check" vertex="1">
+          <mxGeometry height="48" width="170" x="870" y="780" as="geometry" />
+        </mxCell>
+        <mxCell id="n_Recognize-Listening" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;" value="Recognize-Listening" vertex="1">
+          <mxGeometry height="48" width="170" x="580" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="n_Recognize-Result" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fontFamily=Helvetica;" value="Recognize-Result" vertex="1">
+          <mxGeometry height="48" width="170" x="580" y="780" as="geometry" />
+        </mxCell>
+        <mxCell id="e0" edge="1" parent="1" source="n_Onboarding" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontFamily=Helvetica;endArrow=block;endFill=1;fontColor=default;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;strokeColor=#000000;" target="n_Login" value="&lt;span&gt;Пропустить&lt;/span&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="n_Login" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontFamily=Helvetica;endArrow=block;endFill=1;fontColor=default;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0.000;entryY=0.750;entryDx=0;entryDy=0;" target="n_Home" value="Войти / без входа">
+          <mxGeometry relative="1" x="-0.3443" y="12" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="260" y="222" />
+              <mxPoint x="260" y="116" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="n_Login" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontFamily=Helvetica;endArrow=block;endFill=1;fontColor=default;exitX=0.324;exitY=1.000;exitDx=0;exitDy=0;entryX=0.324;entryY=0.000;entryDx=0;entryDy=0;" target="n_Register" value="Регистрация">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="n_Register" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontFamily=Helvetica;endArrow=block;endFill=1;fontColor=default;exitX=0.735;exitY=0.000;exitDx=0;exitDy=0;entryX=0.735;entryY=1.000;entryDx=0;entryDy=0;" target="n_Login" value="Создать аккаунт">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="g_tabs" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontFamily=Helvetica;endArrow=block;endFill=1;fontColor=default;exitX=1.000;exitY=0.128;exitDx=0;exitDy=0;entryX=0.000;entryY=0.500;entryDx=0;entryDy=0;" target="n_Player" value="мини-плеер">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="n_Home" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontFamily=Helvetica;endArrow=block;endFill=1;fontColor=default;exitX=0.000;exitY=0.250;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="n_Settings" value="иконка настроек">
+          <mxGeometry relative="1" x="0.4434" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="260" y="92" />
+              <mxPoint x="260" y="20" />
+              <mxPoint x="-300" y="20" />
+              <mxPoint x="-300" y="474" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="n_Profile" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontFamily=Helvetica;endArrow=block;endFill=1;fontColor=default;exitX=0.000;exitY=0.750;exitDx=0;exitDy=0;entryX=1.000;entryY=0.500;entryDx=0;entryDy=0;" target="n_Settings" value="Настройки">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="356" />
+              <mxPoint x="260" y="474" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="n_Profile" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontFamily=Helvetica;endArrow=block;endFill=1;fontColor=default;exitX=0.000;exitY=0.250;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="n_Login" value="Выйти">
+          <mxGeometry relative="1" x="0.3296" y="6" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="260.03" y="332.03" />
+              <mxPoint x="260.03" y="234.03" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="n_Profile" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontFamily=Helvetica;endArrow=block;endFill=1;fontColor=default;exitX=1.000;exitY=0.500;exitDx=0;exitDy=0;entryX=0.000;entryY=0.500;entryDx=0;entryDy=0;" target="n_Duet" value="Дуэт вкусов">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="532" y="344" />
+              <mxPoint x="532" y="464" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="n_Player" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontFamily=Helvetica;endArrow=block;endFill=1;fontColor=default;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;" target="n_Comments" value="Комментарии">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="n_Player" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontFamily=Helvetica;endArrow=block;endFill=1;fontColor=default;exitX=1.000;exitY=0.750;exitDx=0;exitDy=0;entryX=1.000;entryY=0.500;entryDx=0;entryDy=0;" target="n_Queue-Similar" value="Похожие">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="765" y="116" />
+              <mxPoint x="765" y="344" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="n_Player" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontFamily=Helvetica;endArrow=block;endFill=1;fontColor=default;exitX=1.000;exitY=0.250;exitDx=0;exitDy=0;entryX=0.000;entryY=0.250;entryDx=0;entryDy=0;" target="n_QR-Show" value="QR">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="n_QR-Show" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontFamily=Helvetica;endArrow=block;endFill=1;fontColor=default;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;" target="n_QR-Scan" value="Сканировать код">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="n_Duet" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontFamily=Helvetica;endArrow=block;endFill=1;fontColor=default;exitX=1.000;exitY=0.250;exitDx=0;exitDy=0;entryX=0.000;entryY=0.500;entryDx=0;entryDy=0;" target="n_QR-Scan" value="Сканировать">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="810" y="452" />
+              <mxPoint x="810" y="224" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="n_Duet" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontFamily=Helvetica;endArrow=block;endFill=1;fontColor=default;exitX=1.000;exitY=0.750;exitDx=0;exitDy=0;entryX=0.000;entryY=0.750;entryDx=0;entryDy=0;" target="n_QR-Show" value="Мой QR">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="830" y="476" />
+              <mxPoint x="830" y="116" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="n_MyMusic" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontFamily=Helvetica;endArrow=block;endFill=1;fontColor=default;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;" target="n_Playlist" value="Плейлисты">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="n_MyMusic" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontFamily=Helvetica;endArrow=block;endFill=1;fontColor=default;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="n_Recognize-Listening" value="микрофон">
+          <mxGeometry relative="1" x="0.0044" y="10" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="395" y="580" />
+              <mxPoint x="800" y="580" />
+              <mxPoint x="800" y="694" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="n_MyMusic" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontFamily=Helvetica;endArrow=block;endFill=1;fontColor=default;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;" value="«+» → импорт">
+          <mxGeometry relative="1" x="-0.0108" y="10" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="395" y="580" />
+              <mxPoint x="1110" y="580" />
+              <mxPoint x="1110" y="690" />
+              <mxPoint x="1040" y="690" />
+            </Array>
+            <mxPoint x="1040" y="690" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="n_Import-1-File" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontFamily=Helvetica;endArrow=block;endFill=1;fontColor=default;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;" target="n_Import-2-Check" value="Выбрать файл">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" edge="1" parent="1" source="n_Recognize-Listening" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;fontFamily=Helvetica;endArrow=block;endFill=1;fontColor=default;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;" target="n_Recognize-Result" value="автоматически, 2,5 с">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -14,9 +14,13 @@ Android-приложение на Kotlin: музыкальный плеер со
 | 2. Архитектура | [docs/04-architecture.docx](docs/04-architecture.docx) |
 | 2. Диаграммы | [docs/layer-component-class.drawio](docs/layer-component-class.drawio) |
 | 2. Дизайн система | [docs/05-design-system.docx](docs/05-design-system.docx) |
+| 2. Схема навигации | [docs/navigation.drawio](docs/navigation.drawio) |
+
 
 ## Дизайн
 [Макет Figma](https://www.figma.com/design/VM6764bV5Eod4UTJr6rD5n/media-player-UI?node-id=96-897&t=SgTKflOMsVM89kJo-1)
+[Прототип Figma](https://www.figma.com/proto/VM6764bV5Eod4UTJr6rD5n/media-player-UI?node-id=10-955&p=f&t=VOtl2I4dqJ63heBQ-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=10%3A955)
+
 
 ## Стек
 
@@ -25,7 +29,7 @@ Kotlin · Jetpack Compose · Clean Architecture + MVVM · Hilt · Coroutines/Flo
 ## Статус
 
 - [x] Этап 1. Идея и ТЗ (`v0.1-spec`)
-- [ ] Этап 2. Архитектура и дизайн (`v0.2-design`)
+- [x] Этап 2. Архитектура и дизайн (`v0.2-design`)
 - [ ] Этап 3. Серверная часть (`v0.3-backend`)
 - [ ] Этап 4. Приложение (`v0.9-mvp`)
 - [ ] Этап 5. Тестирование (`v1.0-rc`)
