@@ -1,0 +1,617 @@
+openapi: 3.0.3
+info:
+  title: media-player API
+  version: 1.0.0
+  description: |
+    Серверная часть приложения media-player (Ktor + PostgreSQL).
+    Все пути начинаются с /api/v1. Защищённые методы требуют заголовок
+    `Authorization: Bearer <accessToken>`. Ошибки возвращаются в едином формате `Error`.
+servers:
+  - url: https://media-player.example.com/api/v1
+    description: Рабочий сервер
+  - url: http://localhost:8080/api/v1
+    description: Локальный запуск
+tags:
+  - name: auth
+  - name: catalog
+  - name: likes
+  - name: comments
+  - name: playlists
+  - name: personal
+  - name: system
+security:
+  - bearerAuth: []
+paths:
+  /auth/register:
+    post:
+      tags: [auth]
+      summary: Регистрация по e-mail и паролю
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RegisterRequest' }
+            example: { email: user@mail.ru, password: "Str0ngPass!", displayName: Степан }
+      responses:
+        '201':
+          description: Пользователь создан
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AuthResponse' }
+        '400': { $ref: '#/components/responses/ValidationError' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /auth/login:
+    post:
+      tags: [auth]
+      summary: Вход, выдача пары токенов
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/LoginRequest' }
+            example: { email: user@mail.ru, password: "Str0ngPass!" }
+      responses:
+        '200':
+          description: Успешный вход
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AuthResponse' }
+        '400': { $ref: '#/components/responses/ValidationError' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /auth/refresh:
+    post:
+      tags: [auth]
+      summary: Обновление access-токена по refresh-токену
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refreshToken]
+              properties:
+                refreshToken: { type: string }
+      responses:
+        '200':
+          description: Новая пара токенов (refresh-токен ротируется)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AuthResponse' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /auth/logout:
+    post:
+      tags: [auth]
+      summary: Выход, отзыв refresh-токена
+      responses:
+        '204': { description: Токен отозван }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /tracks:
+    get:
+      tags: [catalog]
+      summary: Поиск и список треков каталога
+      security: []
+      parameters:
+        - { name: query, in: query, schema: { type: string }, description: Поиск по названию и исполнителю }
+        - { name: genre, in: query, schema: { type: string } }
+        - { name: sort, in: query, schema: { type: string, enum: [popular, new], default: popular } }
+        - { name: page, in: query, schema: { type: integer, minimum: 1, default: 1 } }
+        - { name: pageSize, in: query, schema: { type: integer, minimum: 1, maximum: 50, default: 20 } }
+      responses:
+        '200':
+          description: Страница треков
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TrackPage' }
+              example:
+                items:
+                  - { id: "7c1f9a52-3d1e-4b8a-9d5e-1a2b3c4d5e6f", title: Midnight City, artist: M83, genre: synthwave, durationMs: 243000, coverUrl: "https://cdn.example.com/c/1.jpg", streamUrl: "https://cdn.example.com/a/1.mp3", likesCount: 1248, likedByMe: false }
+                page: 1
+                pageSize: 20
+                total: 134
+        '400': { $ref: '#/components/responses/ValidationError' }
+  /tracks/{trackId}:
+    get:
+      tags: [catalog]
+      summary: Карточка трека
+      security: []
+      parameters:
+        - { $ref: '#/components/parameters/TrackId' }
+      responses:
+        '200':
+          description: Трек
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Track' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /tracks/{trackId}/like:
+    put:
+      tags: [likes]
+      summary: Поставить лайк (идемпотентно), трек попадает в «Любимые»
+      parameters:
+        - { $ref: '#/components/parameters/TrackId' }
+      responses:
+        '200':
+          description: Текущее число лайков
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/LikeState' }
+              example: { liked: true, likesCount: 1249 }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    delete:
+      tags: [likes]
+      summary: Снять лайк
+      parameters:
+        - { $ref: '#/components/parameters/TrackId' }
+      responses:
+        '200':
+          description: Текущее число лайков
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/LikeState' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /me/likes:
+    get:
+      tags: [likes]
+      summary: Любимые треки пользователя
+      parameters:
+        - { $ref: '#/components/parameters/Page' }
+        - { $ref: '#/components/parameters/PageSize' }
+      responses:
+        '200':
+          description: Страница треков
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TrackPage' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /tracks/{trackId}/comments:
+    get:
+      tags: [comments]
+      summary: Комментарии трека (по возрастанию времени трека)
+      security: []
+      parameters:
+        - { $ref: '#/components/parameters/TrackId' }
+        - { $ref: '#/components/parameters/Page' }
+        - { $ref: '#/components/parameters/PageSize' }
+      responses:
+        '200':
+          description: Страница комментариев
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CommentPage' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    post:
+      tags: [comments]
+      summary: Добавить комментарий к моменту трека
+      parameters:
+        - { $ref: '#/components/parameters/TrackId' }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CommentRequest' }
+            example: { text: "Лучший момент на втором припеве", positionMs: 84000 }
+      responses:
+        '201':
+          description: Комментарий создан
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Comment' }
+        '400': { $ref: '#/components/responses/ValidationError' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /comments/{commentId}:
+    delete:
+      tags: [comments]
+      summary: Удалить свой комментарий (модератор скрывает любой)
+      parameters:
+        - { name: commentId, in: path, required: true, schema: { type: string, format: uuid } }
+      responses:
+        '204': { description: Удалён }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /playlists:
+    post:
+      tags: [playlists]
+      summary: Создать плейлист (синхронизация с аккаунтом)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title]
+              properties:
+                title: { type: string, minLength: 1, maxLength: 80 }
+                trackIds: { type: array, items: { type: string, format: uuid } }
+      responses:
+        '201':
+          description: Плейлист создан
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Playlist' }
+        '400': { $ref: '#/components/responses/ValidationError' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /playlists/{playlistId}/share:
+    post:
+      tags: [playlists]
+      summary: Получить код для QR-кода плейлиста
+      parameters:
+        - { name: playlistId, in: path, required: true, schema: { type: string, format: uuid } }
+      responses:
+        '200':
+          description: Код и ссылка
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  shareCode: { type: string, example: "k3Hq9Zx2" }
+                  url: { type: string, example: "mediaplayer://playlist/k3Hq9Zx2" }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /playlists/shared/{shareCode}:
+    get:
+      tags: [playlists]
+      summary: Плейлист по коду из QR (без входа)
+      security: []
+      parameters:
+        - { name: shareCode, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: Плейлист с треками
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PlaylistWithTracks' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /playlists/import/match:
+    post:
+      tags: [playlists]
+      summary: Нечёткое сопоставление строк импортированного плейлиста с каталогом
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [lines]
+              properties:
+                lines:
+                  type: array
+                  maxItems: 500
+                  items: { type: string }
+            example: { lines: ["M83 - Midnight City", "Kavinsky Nightcal", "Unknown Artist - Nothing"] }
+      responses:
+        '200':
+          description: Отчёт сопоставления
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ImportReport' }
+        '400': { $ref: '#/components/responses/ValidationError' }
+        '413': { $ref: '#/components/responses/PayloadTooLarge' }
+  /me/recommendations:
+    get:
+      tags: [personal]
+      summary: Персональные рекомендации «Для вас»
+      parameters:
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 50, default: 20 } }
+      responses:
+        '200':
+          description: Список треков (при отключённой истории возвращается популярное)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  personalized: { type: boolean }
+                  items: { type: array, items: { $ref: '#/components/schemas/Track' } }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '502': { $ref: '#/components/responses/UpstreamError' }
+  /me/listening-events:
+    post:
+      tags: [personal]
+      summary: Пакет событий прослушивания (отправляется после восстановления сети)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [events]
+              properties:
+                events:
+                  type: array
+                  maxItems: 200
+                  items: { $ref: '#/components/schemas/ListeningEvent' }
+      responses:
+        '202': { description: Принято }
+        '400': { $ref: '#/components/responses/ValidationError' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /me/taste-profile:
+    put:
+      tags: [personal]
+      summary: Включить или выключить сохранение истории прослушивания
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [historyEnabled]
+              properties:
+                historyEnabled: { type: boolean }
+      responses:
+        '200':
+          description: Настройка сохранена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  historyEnabled: { type: boolean }
+        '400': { $ref: '#/components/responses/ValidationError' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+    delete:
+      tags: [personal]
+      summary: Сбросить профиль вкуса и историю
+      responses:
+        '204': { description: Сброшено }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /recognition:
+    post:
+      tags: [personal]
+      summary: Распознать музыку по короткой записи (5–10 с)
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [audio]
+              properties:
+                audio: { type: string, format: binary, description: "AAC/WAV до 1 МБ" }
+      responses:
+        '200':
+          description: Результат распознавания
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/RecognitionResult' }
+        '400': { $ref: '#/components/responses/ValidationError' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '413': { $ref: '#/components/responses/PayloadTooLarge' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '502': { $ref: '#/components/responses/UpstreamError' }
+  /duets:
+    post:
+      tags: [personal]
+      summary: Дуэт вкусов по коду друга из QR
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [friendCode]
+              properties:
+                friendCode: { type: string }
+      responses:
+        '200':
+          description: Совпадение и общий плейлист
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Duet' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '502': { $ref: '#/components/responses/UpstreamError' }
+  /health:
+    get:
+      tags: [system]
+      summary: Проверка доступности сервера
+      security: []
+      responses:
+        '200':
+          description: Сервер работает
+          content:
+            application/json:
+              example: { status: ok, version: "1.0.0" }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    TrackId: { name: trackId, in: path, required: true, schema: { type: string, format: uuid } }
+    Page: { name: page, in: query, schema: { type: integer, minimum: 1, default: 1 } }
+    PageSize: { name: pageSize, in: query, schema: { type: integer, minimum: 1, maximum: 50, default: 20 } }
+  responses:
+    ValidationError:
+      description: Некорректные входные данные
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+          example: { error: { code: VALIDATION_ERROR, message: "Поле email заполнено неверно", details: [{ field: email, issue: "invalid format" }], requestId: "a1b2c3" } }
+    Unauthorized:
+      description: Нет или просрочен токен, неверный пароль
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+          example: { error: { code: TOKEN_EXPIRED, message: "Срок действия токена истёк", requestId: "a1b2c3" } }
+    Forbidden:
+      description: Нет прав на действие
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    NotFound:
+      description: Объект не найден
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    Conflict:
+      description: Конфликт (например, e-mail уже занят)
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    PayloadTooLarge:
+      description: Слишком большой запрос
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    RateLimited:
+      description: Превышен лимит запросов
+      headers:
+        Retry-After: { schema: { type: integer }, description: Секунд до повтора }
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    UpstreamError:
+      description: Внешний сервис (ИИ, распознавание) недоступен
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code: { type: string, example: NOT_FOUND }
+            message: { type: string }
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field: { type: string }
+                  issue: { type: string }
+            requestId: { type: string }
+    RegisterRequest:
+      type: object
+      required: [email, password, displayName]
+      properties:
+        email: { type: string, format: email }
+        password: { type: string, minLength: 8, maxLength: 72 }
+        displayName: { type: string, minLength: 1, maxLength: 40 }
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email: { type: string, format: email }
+        password: { type: string }
+    AuthResponse:
+      type: object
+      properties:
+        accessToken: { type: string, description: JWT, живёт 15 минут }
+        refreshToken: { type: string, description: Живёт 30 дней, одноразовый }
+        expiresIn: { type: integer, example: 900 }
+        user: { $ref: '#/components/schemas/User' }
+    User:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        email: { type: string }
+        displayName: { type: string }
+        role: { type: string, enum: [user, moderator] }
+    Track:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        title: { type: string }
+        artist: { type: string }
+        genre: { type: string }
+        durationMs: { type: integer, format: int64 }
+        coverUrl: { type: string }
+        streamUrl: { type: string }
+        likesCount: { type: integer }
+        likedByMe: { type: boolean }
+    TrackPage:
+      type: object
+      properties:
+        items: { type: array, items: { $ref: '#/components/schemas/Track' } }
+        page: { type: integer }
+        pageSize: { type: integer }
+        total: { type: integer }
+    LikeState:
+      type: object
+      properties:
+        liked: { type: boolean }
+        likesCount: { type: integer }
+    CommentRequest:
+      type: object
+      required: [text, positionMs]
+      properties:
+        text: { type: string, minLength: 1, maxLength: 500 }
+        positionMs: { type: integer, format: int64, minimum: 0 }
+    Comment:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        trackId: { type: string, format: uuid }
+        authorName: { type: string }
+        text: { type: string }
+        positionMs: { type: integer, format: int64 }
+        createdAt: { type: string, format: date-time }
+    CommentPage:
+      type: object
+      properties:
+        items: { type: array, items: { $ref: '#/components/schemas/Comment' } }
+        page: { type: integer }
+        pageSize: { type: integer }
+        total: { type: integer }
+    Playlist:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        title: { type: string }
+        tracksCount: { type: integer }
+    PlaylistWithTracks:
+      allOf:
+        - $ref: '#/components/schemas/Playlist'
+        - type: object
+          properties:
+            tracks: { type: array, items: { $ref: '#/components/schemas/Track' } }
+    ImportReport:
+      type: object
+      properties:
+        found:
+          type: array
+          items: { type: object, properties: { line: { type: string }, track: { $ref: '#/components/schemas/Track' } } }
+        doubtful:
+          type: array
+          items: { type: object, properties: { line: { type: string }, candidates: { type: array, items: { $ref: '#/components/schemas/Track' } } } }
+        notFound:
+          type: array
+          items: { type: string }
+    ListeningEvent:
+      type: object
+      required: [trackId, type, timestamp]
+      properties:
+        trackId: { type: string, format: uuid }
+        type: { type: string, enum: [PLAY, SKIP, FINISH] }
+        timestamp: { type: integer, format: int64, description: "Unix-время в мс" }
+    RecognitionResult:
+      type: object
+      properties:
+        recognized: { type: boolean }
+        track: { $ref: '#/components/schemas/Track' }
+        rawTitle: { type: string }
+    Duet:
+      type: object
+      properties:
+        matchPercent: { type: integer, minimum: 0, maximum: 100 }
+        commonGenres: { type: array, items: { type: string } }
+        playlist: { $ref: '#/components/schemas/PlaylistWithTracks' }
