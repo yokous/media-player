@@ -19,7 +19,9 @@ Android-приложение на Kotlin: музыкальный плеер со
 | 3. Модель данных | [docs/ER-diagram(DB).drawio](docs/ER-diagram(DB).drawio) |
 
 ## Сервер
-Адрес: https://moi-player.duckdns.org/api/v1
+Базовый адрес API: `https://moi-player.duckdns.org/api/v1`
+Проверка: [https://moi-player.duckdns.org/api/v1/health](https://moi-player.duckdns.org/api/v1/health)
+Каталог: [https://moi-player.duckdns.org/api/v1/tracks](https://moi-player.duckdns.org/api/v1/tracks)
 
 ## Дизайн
 [Макет Figma](https://www.figma.com/design/VM6764bV5Eod4UTJr6rD5n/media-player-UI?node-id=96-897&t=SgTKflOMsVM89kJo-1)
