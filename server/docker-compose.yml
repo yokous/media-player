@@ -13,10 +13,12 @@ services:
       interval: 3s
       timeout: 3s
       retries: 20
+    # порт базы наружу НЕ публикуем: она видна только серверу внутри сети compose
 
   api:
     build: .
     restart: unless-stopped
+    mem_limit: 450m
     depends_on:
       db:
         condition: service_healthy
@@ -27,8 +29,16 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       JWT_SECRET: ${JWT_SECRET:?задайте JWT_SECRET в .env}
       SEED_DEMO_DATA: ${SEED_DEMO_DATA:-true}
+      # ключи внешних API: только здесь, в APK их нет; пустые значения = функция отключена
+      AI_API_KEY: ${AI_API_KEY:-}
+      AI_MODEL: ${AI_MODEL:-claude-haiku-5-5}
+      RECOGNITION_API_KEY: ${RECOGNITION_API_KEY:-}
+      RATE_LIMIT_PER_MINUTE: ${RATE_LIMIT_PER_MINUTE:-120}
+      AUTH_RATE_LIMIT_PER_MINUTE: ${AUTH_RATE_LIMIT_PER_MINUTE:-20}
+      AI_RATE_LIMIT_PER_MINUTE: ${AI_RATE_LIMIT_PER_MINUTE:-10}
     ports:
-      - "${API_PORT:-8080}:8080"
+      # дома: localhost:8080. На VPS в .env: API_BIND=127.0.0.1 и API_PORT=8081, наружу выходит только nginx
+      - "${API_BIND:-0.0.0.0}:${API_PORT:-8080}:8080"
 
 volumes:
   dbdata:

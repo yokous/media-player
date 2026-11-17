@@ -1,0 +1,25 @@
+meta {
+  name: Recognition: аудиофайл
+  type: http
+  seq: 26
+}
+
+post {
+  url: {{baseUrl}}/recognition
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:multipart-form {
+  audio: @file(sample.wav)
+}
+
+tests {
+  test("ответ 200, 503 или 502", function () {
+    expect([200, 502, 503]).to.include(res.status);
+  });
+}

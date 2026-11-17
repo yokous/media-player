@@ -10,9 +10,13 @@ import com.example.mediaplayer.server.dto.RecommendationsResponse
 import com.example.mediaplayer.server.dto.TasteSettings
 import com.example.mediaplayer.server.dto.TasteSettingsRequest
 import com.example.mediaplayer.server.errors.ApiException
+import com.example.mediaplayer.server.external.AiClient
+import com.example.mediaplayer.server.service.genreWeights
+import com.example.mediaplayer.server.service.historyEnabled
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.auth.authenticate
+import io.ktor.server.plugins.ratelimit.rateLimit
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
@@ -36,10 +40,7 @@ private const val MAX_EVENTS = 200
 private const val RECOMMENDATIONS = 20
 private val EVENT_TYPES = setOf("PLAY", "SKIP", "FINISH")
 
-private fun org.jetbrains.exposed.sql.Transaction.historyEnabled(uid: UUID): Boolean =
-    TasteProfiles.selectAll().where { TasteProfiles.userId eq uid }.singleOrNull()?.get(TasteProfiles.historyEnabled) ?: true
-
-fun Route.meRoutes() {
+fun Route.meRoutes(ai: AiClient) {
     authenticate("auth-jwt") {
         post("/me/listening-events") {
             val uid = call.userId()
@@ -103,34 +104,38 @@ fun Route.meRoutes() {
             call.respond(HttpStatusCode.NoContent)
         }
 
-        get("/me/recommendations") {
-            val uid = call.userId()
-            val result = dbQuery {
-                val personalEnabled = historyEnabled(uid)
-                val likedGenres = (Likes innerJoin Tracks).selectAll().where { Likes.userId eq uid }
-                    .map { it[Tracks.genre] }
-                val playedGenres = if (personalEnabled)
-                    (ListeningEvents innerJoin Tracks).selectAll()
-                        .where { (ListeningEvents.userId eq uid) and (ListeningEvents.type inList listOf("PLAY", "FINISH")) }
-                        .map { it[Tracks.genre] }
-                else emptyList()
-                // Вес жанра: лайк = 3, прослушивание = 1.
-                val weights = HashMap<String, Int>()
-                likedGenres.forEach { weights.merge(it, 3, Int::plus) }
-                playedGenres.forEach { weights.merge(it, 1, Int::plus) }
+        rateLimit(AiLimit) {
+            get("/me/recommendations") {
+                val uid = call.userId()
+                val result = dbQuery {
+                    val personalEnabled = historyEnabled(uid)
+                    val weights = genreWeights(uid, withPlays = personalEnabled)
 
-                val seen = Likes.selectAll().where { Likes.userId eq uid }.map { it[Likes.trackId] }.toSet()
-                val all = Tracks.selectAll().where { Tracks.hidden eq false }
-                    .orderBy(Tracks.likesCount, SortOrder.DESC).toList()
-                val personal = weights.isNotEmpty()
-                val ranked = if (personal) {
-                    all.filter { it[Tracks.id] !in seen }
-                        .sortedByDescending { weights[it[Tracks.genre]] ?: 0 }
-                        .take(RECOMMENDATIONS)
-                } else all.take(RECOMMENDATIONS)
-                RecommendationsResponse(personal, ranked.toTrackDtos(uid))
+                    val seen = Likes.selectAll().where { Likes.userId eq uid }.map { it[Likes.trackId] }.toSet()
+                    val all = Tracks.selectAll().where { Tracks.hidden eq false }
+                        .orderBy(Tracks.likesCount, SortOrder.DESC).toList()
+                    val personal = weights.isNotEmpty()
+                    val ranked = if (personal) {
+                        all.filter { it[Tracks.id] !in seen }
+                            .sortedByDescending { weights[it[Tracks.genre]] ?: 0 }
+                            .take(RECOMMENDATIONS)
+                    } else all.take(RECOMMENDATIONS)
+                    RecommendationsResponse(personal, ranked.toTrackDtos(uid)) to weights
+                }
+                val (response, weights) = result
+                // ИИ только объясняет подборку. Если он недоступен, отдаём подборку без объяснения.
+                val explanation = if (response.personalized && ai.enabled) {
+                    val top = weights.entries.sortedByDescending { it.value }.take(3).joinToString { it.key }
+                    val sample = response.items.take(5).joinToString("; ") { "${it.artist} — ${it.title}" }
+                    ai.complete(
+                        "Пользователь музыкального плеера чаще всего слушает жанры: $top. " +
+                            "Ему подобрали треки, например: $sample. " +
+                            "Напиши по-русски одно-два коротких предложения, почему эта подборка ему подойдёт. " +
+                            "Без списков и заголовков.",
+                    )
+                } else null
+                call.respond(response.copy(explanation = explanation))
             }
-            call.respond(result)
         }
     }
 }

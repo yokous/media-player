@@ -1,0 +1,17 @@
+meta {
+  name: Comments: список
+  type: http
+  seq: 15
+}
+
+get {
+  url: {{baseUrl}}/tracks/{{trackId}}/comments
+  body: none
+  auth: none
+}
+
+tests {
+  test("комментарии получены", function () {
+    expect(res.status).to.equal(200);
+  });
+}

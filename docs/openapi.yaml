@@ -7,7 +7,7 @@ info:
     Все пути начинаются с /api/v1. Защищённые методы требуют заголовок
     `Authorization: Bearer <accessToken>`. Ошибки возвращаются в едином формате `Error`.
 servers:
-  - url: https://media-player.example.com/api/v1
+  - url: https://moi-player.duckdns.org/api/v1
     description: Рабочий сервер
   - url: http://localhost:8080/api/v1
     description: Локальный запуск
@@ -315,8 +315,9 @@ paths:
                 properties:
                   personalized: { type: boolean }
                   items: { type: array, items: { $ref: '#/components/schemas/Track' } }
+                  explanation: { type: string, nullable: true, description: "Короткое объяснение от ИИ; null, если ИИ недоступен или подборка не персональная" }
         '401': { $ref: '#/components/responses/Unauthorized' }
-        '502': { $ref: '#/components/responses/UpstreamError' }
+        '429': { $ref: '#/components/responses/RateLimited' }
   /me/listening-events:
     post:
       tags: [personal]
@@ -367,6 +368,17 @@ paths:
       responses:
         '204': { description: Сброшено }
         '401': { $ref: '#/components/responses/Unauthorized' }
+  /me/friend-code:
+    get:
+      tags: [personal]
+      summary: Код для «Дуэта вкусов» (показывается в QR)
+      responses:
+        '200':
+          description: Код пользователя
+          content:
+            application/json:
+              example: { friendCode: "3f2a9c1e4b7d4e0a8c5d6b7a1e2f3a4b" }
+        '401': { $ref: '#/components/responses/Unauthorized' }
   /recognition:
     post:
       tags: [personal]
@@ -388,10 +400,10 @@ paths:
               schema: { $ref: '#/components/schemas/RecognitionResult' }
         '400': { $ref: '#/components/responses/ValidationError' }
         '401': { $ref: '#/components/responses/Unauthorized' }
-        '404': { $ref: '#/components/responses/NotFound' }
         '413': { $ref: '#/components/responses/PayloadTooLarge' }
         '429': { $ref: '#/components/responses/RateLimited' }
         '502': { $ref: '#/components/responses/UpstreamError' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
   /duets:
     post:
       tags: [personal]
@@ -411,9 +423,11 @@ paths:
           content:
             application/json:
               schema: { $ref: '#/components/schemas/Duet' }
+        '400': { $ref: '#/components/responses/ValidationError' }
         '401': { $ref: '#/components/responses/Unauthorized' }
         '404': { $ref: '#/components/responses/NotFound' }
-        '502': { $ref: '#/components/responses/UpstreamError' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '429': { $ref: '#/components/responses/RateLimited' }
   /health:
     get:
       tags: [system]
@@ -459,7 +473,7 @@ components:
         application/json:
           schema: { $ref: '#/components/schemas/Error' }
     Conflict:
-      description: Конфликт (например, e-mail уже занят)
+      description: Конфликт (e-mail уже занят; для дуэта у одного из пользователей отключена история, код DUET_UNAVAILABLE)
       content:
         application/json:
           schema: { $ref: '#/components/schemas/Error' }
@@ -472,6 +486,11 @@ components:
       description: Превышен лимит запросов
       headers:
         Retry-After: { schema: { type: integer }, description: Секунд до повтора }
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    ServiceUnavailable:
+      description: Функция не настроена на сервере (нет ключа внешнего API)
       content:
         application/json:
           schema: { $ref: '#/components/schemas/Error' }
@@ -615,3 +634,4 @@ components:
         matchPercent: { type: integer, minimum: 0, maximum: 100 }
         commonGenres: { type: array, items: { type: string } }
         playlist: { $ref: '#/components/schemas/PlaylistWithTracks' }
+        explanation: { type: string, nullable: true, description: "Объяснение от ИИ; null, если ИИ недоступен" }

@@ -1,0 +1,30 @@
+meta {
+  name: Import: список строк
+  type: http
+  seq: 19
+}
+
+post {
+  url: {{baseUrl}}/playlists/import/match
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "lines": [
+      "M83 - Midnight City",
+      "Несуществующая песня"
+    ]
+  }
+}
+
+tests {
+  test("отчёт получен", function () {
+    expect(res.status).to.equal(200);
+  });
+}

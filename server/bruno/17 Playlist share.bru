@@ -1,0 +1,25 @@
+meta {
+  name: Playlist: поделиться
+  type: http
+  seq: 17
+}
+
+post {
+  url: {{baseUrl}}/playlists/{{playlistId}}/share
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+script:post-response {
+  bru.setVar("shareCode", res.body.shareCode);
+}
+
+tests {
+  test("ссылка получена", function () {
+    expect(res.status).to.equal(200);
+  });
+}

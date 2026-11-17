@@ -70,6 +70,20 @@ import kotlinx.serialization.Serializable
 @Serializable data class ListeningEventsRequest(val events: List<ListeningEventDto> = emptyList())
 @Serializable data class TasteSettingsRequest(val historyEnabled: Boolean? = null)
 @Serializable data class TasteSettings(val historyEnabled: Boolean)
-@Serializable data class RecommendationsResponse(val personalized: Boolean, val items: List<TrackDto>)
+@Serializable data class RecommendationsResponse(
+    val personalized: Boolean,
+    val items: List<TrackDto>,
+    val explanation: String? = null,
+)
+
+@Serializable data class RecognitionResult(val recognized: Boolean, val track: TrackDto? = null, val rawTitle: String? = null)
+@Serializable data class FriendCodeResponse(val friendCode: String)
+@Serializable data class DuetRequest(val friendCode: String = "")
+@Serializable data class DuetResponse(
+    val matchPercent: Int,
+    val commonGenres: List<String>,
+    val playlist: PlaylistWithTracksDto,
+    val explanation: String? = null,
+)
 
 @Serializable data class HealthDto(val status: String, val version: String)

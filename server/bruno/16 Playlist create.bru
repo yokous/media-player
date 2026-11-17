@@ -1,0 +1,34 @@
+meta {
+  name: Playlist: создать
+  type: http
+  seq: 16
+}
+
+post {
+  url: {{baseUrl}}/playlists
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "title": "Bruno",
+    "trackIds": [
+      "{{trackId}}"
+    ]
+  }
+}
+
+script:post-response {
+  bru.setVar("playlistId", res.body.id);
+}
+
+tests {
+  test("плейлист создан", function () {
+    expect(res.status).to.equal(201);
+  });
+}

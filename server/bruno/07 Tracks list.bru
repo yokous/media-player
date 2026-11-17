@@ -1,0 +1,21 @@
+meta {
+  name: Tracks: список
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/tracks?pageSize=5
+  body: none
+  auth: none
+}
+
+script:post-response {
+  bru.setVar("trackId", res.body.items[0].id);
+}
+
+tests {
+  test("каталог получен", function () {
+    expect(res.status).to.equal(200);
+  });
+}

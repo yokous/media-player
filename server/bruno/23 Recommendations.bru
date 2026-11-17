@@ -1,0 +1,21 @@
+meta {
+  name: Recommendations
+  type: http
+  seq: 23
+}
+
+get {
+  url: {{baseUrl}}/me/recommendations
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+tests {
+  test("подборка получена", function () {
+    expect(res.status).to.equal(200);
+  });
+}

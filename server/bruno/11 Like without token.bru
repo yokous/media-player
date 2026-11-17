@@ -1,0 +1,18 @@
+meta {
+  name: Like: без токена
+  type: http
+  seq: 11
+}
+
+put {
+  url: {{baseUrl}}/tracks/{{trackId}}/like
+  body: none
+  auth: none
+}
+
+tests {
+  test("UNAUTHORIZED", function () {
+    expect(res.status).to.equal(401);
+    expect(res.body.error.code).to.equal("UNAUTHORIZED");
+  });
+}

@@ -1,0 +1,33 @@
+meta {
+  name: Listening events
+  type: http
+  seq: 20
+}
+
+post {
+  url: {{baseUrl}}/me/listening-events
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "events": [
+      {
+        "trackId": "{{trackId}}",
+        "type": "PLAY",
+        "timestamp": 1
+      }
+    ]
+  }
+}
+
+tests {
+  test("события приняты", function () {
+    expect(res.status).to.equal(202);
+  });
+}
