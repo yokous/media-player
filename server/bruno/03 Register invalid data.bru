@@ -1,0 +1,26 @@
+meta {
+  name: Register: невалидные данные
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/auth/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "bad",
+    "password": "1",
+    "displayName": ""
+  }
+}
+
+tests {
+  test("VALIDATION_ERROR", function () {
+    expect(res.status).to.equal(400);
+    expect(res.body.error.code).to.equal("VALIDATION_ERROR");
+  });
+}

@@ -1,0 +1,25 @@
+meta {
+  name: Friend code
+  type: http
+  seq: 24
+}
+
+get {
+  url: {{baseUrl}}/me/friend-code
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+script:post-response {
+  bru.setVar("friendCode", res.body.friendCode);
+}
+
+tests {
+  test("код получен", function () {
+    expect(res.status).to.equal(200);
+  });
+}

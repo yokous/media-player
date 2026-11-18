@@ -17,7 +17,12 @@ Android-приложение на Kotlin: музыкальный плеер со
 | 2. Схема навигации | [docs/navigation.drawio](docs/navigation.drawio) |
 | 3. Серверная часть | [docs/08-backend.docx](docs/08-backend.docx) |
 | 3. Модель данных | [docs/ER-diagram(DB).drawio](docs/ER-diagram(DB).drawio) |
+| 3. Тестирование сервера | [docs/11-server-testing.docx](docs/11-server-testing.docx) |
 
+## Сервер
+Базовый адрес API: `https://moi-player.duckdns.org/api/v1`
+Проверка: [https://moi-player.duckdns.org/api/v1/health](https://moi-player.duckdns.org/api/v1/health)
+Каталог: [https://moi-player.duckdns.org/api/v1/tracks](https://moi-player.duckdns.org/api/v1/tracks)
 
 ## Дизайн
 [Макет Figma](https://www.figma.com/design/VM6764bV5Eod4UTJr6rD5n/media-player-UI?node-id=96-897&t=SgTKflOMsVM89kJo-1)
@@ -32,7 +37,7 @@ Kotlin · Jetpack Compose · Clean Architecture + MVVM · Hilt · Coroutines/Flo
 
 - [x] Этап 1. Идея и ТЗ (`v0.1-spec`)
 - [x] Этап 2. Архитектура и дизайн (`v0.2-design`)
-- [ ] Этап 3. Серверная часть (`v0.3-backend`)
+- [x] Этап 3. Серверная часть (`v0.3-backend`)
 - [ ] Этап 4. Приложение (`v0.9-mvp`)
 - [ ] Этап 5. Тестирование (`v1.0-rc`)
 - [ ] Этап 6. Релиз (`v1.0`)

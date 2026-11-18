@@ -1,0 +1,18 @@
+meta {
+  name: Tracks: pageSize больше 50
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/tracks?pageSize=500
+  body: none
+  auth: none
+}
+
+tests {
+  test("VALIDATION_ERROR", function () {
+    expect(res.status).to.equal(400);
+    expect(res.body.error.code).to.equal("VALIDATION_ERROR");
+  });
+}

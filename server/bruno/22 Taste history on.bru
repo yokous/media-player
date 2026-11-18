@@ -1,0 +1,27 @@
+meta {
+  name: Taste: включить историю
+  type: http
+  seq: 22
+}
+
+put {
+  url: {{baseUrl}}/me/taste-profile
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "historyEnabled": true
+  }
+}
+
+tests {
+  test("настройка сохранена", function () {
+    expect(res.status).to.equal(200);
+  });
+}

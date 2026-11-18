@@ -1,0 +1,27 @@
+meta {
+  name: Taste: выключить историю
+  type: http
+  seq: 21
+}
+
+put {
+  url: {{baseUrl}}/me/taste-profile
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "historyEnabled": false
+  }
+}
+
+tests {
+  test("настройка сохранена", function () {
+    expect(res.status).to.equal(200);
+  });
+}

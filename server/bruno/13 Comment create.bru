@@ -1,0 +1,28 @@
+meta {
+  name: Comment: создать
+  type: http
+  seq: 13
+}
+
+post {
+  url: {{baseUrl}}/tracks/{{trackId}}/comments
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "text": "Классный трек",
+    "positionMs": 1000
+  }
+}
+
+tests {
+  test("комментарий создан", function () {
+    expect(res.status).to.equal(201);
+  });
+}

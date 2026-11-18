@@ -1,0 +1,17 @@
+meta {
+  name: Playlist: открыть по коду
+  type: http
+  seq: 18
+}
+
+get {
+  url: {{baseUrl}}/playlists/shared/{{shareCode}}
+  body: none
+  auth: none
+}
+
+tests {
+  test("плейлист открыт", function () {
+    expect(res.status).to.equal(200);
+  });
+}

@@ -1,0 +1,29 @@
+meta {
+  name: Comment: пустой текст
+  type: http
+  seq: 14
+}
+
+post {
+  url: {{baseUrl}}/tracks/{{trackId}}/comments
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "text": "",
+    "positionMs": 1000
+  }
+}
+
+tests {
+  test("VALIDATION_ERROR", function () {
+    expect(res.status).to.equal(400);
+    expect(res.body.error.code).to.equal("VALIDATION_ERROR");
+  });
+}

@@ -1,0 +1,28 @@
+meta {
+  name: Duet: с самим собой
+  type: http
+  seq: 25
+}
+
+post {
+  url: {{baseUrl}}/duets
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "friendCode": "{{friendCode}}"
+  }
+}
+
+tests {
+  test("VALIDATION_ERROR", function () {
+    expect(res.status).to.equal(400);
+    expect(res.body.error.code).to.equal("VALIDATION_ERROR");
+  });
+}

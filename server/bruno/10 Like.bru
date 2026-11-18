@@ -1,0 +1,21 @@
+meta {
+  name: Like
+  type: http
+  seq: 10
+}
+
+put {
+  url: {{baseUrl}}/tracks/{{trackId}}/like
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+tests {
+  test("лайк поставлен", function () {
+    expect(res.status).to.equal(200);
+  });
+}
