@@ -3,3 +3,16 @@ build/
 .gradle/
 *.iml
 .idea/
+*.iml
+.gradle/
+.idea/
+build/
+captures/
+.externalNativeBuild/
+.cxx/
+local.properties
+*.apk
+*.aab
+*.jks
+*.keystore
+.env
