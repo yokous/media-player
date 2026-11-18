@@ -15,6 +15,8 @@ Android-приложение на Kotlin: музыкальный плеер со
 | 2. Диаграммы | [docs/layer-component-class.drawio](docs/layer-component-class.drawio) |
 | 2. Дизайн система | [docs/05-design-system.docx](docs/05-design-system.docx) |
 | 2. Схема навигации | [docs/navigation.drawio](docs/navigation.drawio) |
+| 3. Серверная часть | [docs/08-backend.docx](docs/08-backend.docx) |
+| 3. Модель данных | [docs/ER-diagram(DB).drawio](docs/ER-diagram(DB).drawio) |
 
 
 ## Дизайн
